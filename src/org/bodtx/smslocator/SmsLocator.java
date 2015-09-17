@@ -29,15 +29,22 @@ public class SmsLocator extends Service {
 	private volatile double precision;
 
 	private WifiManager wifiManager;
+	
+	LocationManager locationManager;
+
+	private LocationListener locationListenerNetWork;
+
+	private LocationListener locationListenerGPS;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		precision = 10000.0;
+		
 		// First find the action we need to handle
 		String smsreceive = "android.provider.Telephony.SMS_RECEIVED";
 		if (intent != null && intent.getAction().equals(smsreceive)) {
@@ -65,8 +72,11 @@ public class SmsLocator extends Service {
 					// TODO ask for the notification to display it
 				}
 				if (body.equals("Position")) {
+					precision = 10000.0;
 					calculatePosition(from);
 				} else if (body.equals("Stop")) {
+					locationManager.removeUpdates(locationListenerGPS);
+					locationManager.removeUpdates(locationListenerNetWork);
 					stopSelf();
 				}
 			}
@@ -92,11 +102,11 @@ public class SmsLocator extends Service {
 		wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
 		wifiManager.setWifiEnabled(true);
 
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		
 
-		// Define a listener that responds to location updates
-		LocationListener locationListenerNetWork = new LocationListener() {
+		locationListenerNetWork = new LocationListener() {
 			public void onLocationChanged(Location location) {
+				Log.i("precision vs accuracy network", precision + " vs "+ location.getAccuracy());
 				if (location.getAccuracy() < precision) {
 					Log.i("Votre position Network", location.getLatitude() + " " + location.getLongitude());
 					SmsManager.getDefault().sendTextMessage(
@@ -119,8 +129,9 @@ public class SmsLocator extends Service {
 			}
 		};
 
-		LocationListener locationListenerGPS = new LocationListener() {
+		locationListenerGPS = new LocationListener() {
 			public void onLocationChanged(Location location) {
+				Log.i("precision vs accuracy gps", precision + " vs "+ location.getAccuracy());
 				if (location.getAccuracy() < precision) {
 					Log.i("Votre position GPS ", location.getLatitude() + " " + location.getLongitude());
 					SmsManager.getDefault().sendTextMessage(
