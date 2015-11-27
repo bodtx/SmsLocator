@@ -93,11 +93,11 @@ public class SmsLocator extends Service {
 		// wakeLock.acquire();
 
 		// TODO do not work on android >= 4.4
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			Intent intentGPS = new Intent("android.location.GPS_ENABLED_CHANGE");
-			intentGPS.putExtra("enabled", true);
-			sendBroadcast(intentGPS);
-		}
+//		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//			Intent intentGPS = new Intent("android.location.GPS_ENABLED_CHANGE");
+//			intentGPS.putExtra("enabled", true);
+//			sendBroadcast(intentGPS);
+//		}
 
 		wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
 		wifiManager.setWifiEnabled(true);
@@ -156,19 +156,19 @@ public class SmsLocator extends Service {
 		// Register the listener with the Location Manager to receive location
 		// updates
 		
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetWork);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerGPS);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 5, locationListenerNetWork);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, locationListenerGPS);
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			Intent intent = new Intent("android.location.GPS_ENABLED_CHANGE");
-			intent.putExtra("enabled", false);
-			sendBroadcast(intent);
-		}
+//		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//			Intent intent = new Intent("android.location.GPS_ENABLED_CHANGE");
+//			intent.putExtra("enabled", false);
+//			sendBroadcast(intent);
+//		}
 
 		wifiManager.setWifiEnabled(false);
 

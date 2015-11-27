@@ -18,7 +18,7 @@ import android.view.Menu;
 public class MainActivity extends Activity implements
 ConnectionCallbacks, OnConnectionFailedListener {
 
-	private GoogleApiClient myGoogleApiClient;
+//	private GoogleApiClient myGoogleApiClient;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +28,14 @@ ConnectionCallbacks, OnConnectionFailedListener {
 		
 		
 	    
-	    myGoogleApiClient = new GoogleApiClient.Builder(this)
-	    .addConnectionCallbacks(this)
-        .addOnConnectionFailedListener(this)
-        .addApi(LocationServices.API)
-        .build();
-	    
-	    
-	    myGoogleApiClient.connect();
+//	    myGoogleApiClient = new GoogleApiClient.Builder(this)
+//	    .addConnectionCallbacks(this)
+//        .addOnConnectionFailedListener(this)
+//        .addApi(LocationServices.API)
+//        .build();
+//	    
+//	    
+//	    myGoogleApiClient.connect();
 
 
 		
@@ -50,20 +50,20 @@ ConnectionCallbacks, OnConnectionFailedListener {
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		MyLocationListener myLocationListener = new MyLocationListener();
-		
-		 Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-				 myGoogleApiClient);
-		 Log.i("location", "dernière position" +mLastLocation.getAccuracy());
-
-		
-		LocationRequest mLocationRequest = new LocationRequest();
-	    mLocationRequest.setInterval(10000);
-	    mLocationRequest.setFastestInterval(5000);
-	    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-	    
-	    LocationServices.FusedLocationApi.requestLocationUpdates(
-	    		myGoogleApiClient, mLocationRequest,  myLocationListener);
+//		MyLocationListener myLocationListener = new MyLocationListener();
+//		
+//		 Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+//				 myGoogleApiClient);
+//		 Log.i("location", "dernière position" +mLastLocation.getAccuracy());
+//
+//		
+//		LocationRequest mLocationRequest = new LocationRequest();
+//	    mLocationRequest.setInterval(10000);
+//	    mLocationRequest.setFastestInterval(5000);
+//	    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//	    
+//	    LocationServices.FusedLocationApi.requestLocationUpdates(
+//	    		myGoogleApiClient, mLocationRequest,  myLocationListener);
 
 		
 	}

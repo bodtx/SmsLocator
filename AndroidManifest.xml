@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -23,12 +25,16 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
+        
+        
         <meta-data android:name="com.google.android.gms.version"
            android:value="@integer/google_play_services_version" />
         
         <receiver android:name="org.bodtx.smslocator.MySmsReceiver" >
             <intent-filter android:priority="1000" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                
             </intent-filter>
         </receiver>
         
